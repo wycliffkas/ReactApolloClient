@@ -25,6 +25,27 @@ const RocketType = new GraphQLObjectType({
     })
 });
 
+// History Type
+const HistoryType = new GraphQLObjectType({
+    name: 'History',
+    fields: () => ({
+        id: { type: GraphQLInt },
+        event_date_utc: { type: GraphQLString },
+        details: { type: GraphQLString },
+        links: { type: LinksType }
+    })
+});
+
+// Links Type
+const LinksType = new GraphQLObjectType({
+    name: 'Links',
+    fields: () => ({
+        reddit: { type: GraphQLString },
+        article: { type: GraphQLString },
+        wikipedia: { type: GraphQLString }
+    })
+});
+
 // Root Query
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -59,14 +80,33 @@ const RootQuery = new GraphQLObjectType({
         rocket: {
             type: RocketType,
             args: {
+                rocket_id: { type: GraphQLString }
+            },
+            resolve(parent, args) {
+                return axios
+                    .get(`https://api.spacexdata.com/v3/rockets/${args.rocket_id}`)
+                    .then(res => res.data);
+                }
+        },
+        histories: {
+            type: new GraphQLList(HistoryType),
+            resolve(parent, args) {
+                return axios
+                    .get('https://api.spacexdata.com/v3/history')
+                    .then(res => res.data);
+            }
+        },
+        history: {
+            type: HistoryType,
+            args: {
                 id: { type: GraphQLInt }
             },
             resolve(parent, args) {
                 return axios
-                    .get(`https://api.spacexdata.com/v3/rockets/${args.id}`)
+                    .get(`https://api.spacexdata.com/v3/history/${args.id}`)
                     .then(res => res.data);
                 }
-        }
+        },
     }
 });
 
