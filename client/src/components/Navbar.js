@@ -14,7 +14,7 @@ export default function Navbar() {
                     <Link to="/" className="nav-link font-weight-bold">Home</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/launches" className="nav-link font-weight-bold">Launches</Link>
+                    <Link to="/histories" className="nav-link font-weight-bold">History</Link>
                 </li>
                 <li className="nav-item">
                     <Link to="/rockets" className="nav-link font-weight-bold">Rockets</Link>

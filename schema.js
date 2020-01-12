@@ -30,6 +30,7 @@ const HistoryType = new GraphQLObjectType({
     name: 'History',
     fields: () => ({
         id: { type: GraphQLInt },
+        title: { type: GraphQLString },
         event_date_utc: { type: GraphQLString },
         details: { type: GraphQLString },
         links: { type: LinksType }
